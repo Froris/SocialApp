@@ -1,0 +1,1 @@
+mongodb+srv://mainUser:lovei42chan@reactapp-qalvi.mongodb.net/ReactApp?retryWrites=true&w=majority
