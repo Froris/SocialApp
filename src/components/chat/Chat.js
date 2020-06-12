@@ -28,7 +28,7 @@ const Chat = () => {
   // Говорим фронту прослушивать ответ от сервера chatFromServer
   // chatFromServer принимает сообщение(42) и ретранслирует его в общий чат
   useEffect(() => {
-    socket.current = io("http://localhost:8080");
+    socket.current = io(process.env.BACKENDURL || "https://social-app-serv.herokuapp.com");
     socket.current.on("chatFromServer", (message) => {
       setState((draft) => {
         draft.chatMessages.push(message);

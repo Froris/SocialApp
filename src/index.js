@@ -26,7 +26,7 @@ const SinglePost = React.lazy(() => import("./components/SinglePostPage"));
 const Search = React.lazy(() => import("./components/Search"));
 const Chat = React.lazy(() => import("./components/chat/Chat"));
 
-Axios.defaults.baseURL = process.env.BACKENDURL || "";
+Axios.defaults.baseURL = process.env.BACKENDURL || "https://social-app-serv.herokuapp.com";
 
 const App = () => {
   // Общий state
