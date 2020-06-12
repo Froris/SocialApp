@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Container from "./Container";
 
 const Page = (props) => {
   useEffect(() => {
-    document.title = props.title;
+    document.title = props.title || "Social App";
     window.scrollTo(0, 0);
-  }, []);
+  }, [props.title]);
 
   return (
     <>
