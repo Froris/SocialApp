@@ -27,7 +27,6 @@ const CreatePost = (props) => {
 
   if (isSuccessful) {
     appDispatch({ type: "FLASH_MESSAGE", value: "Congrats! You successfuly created the post!" });
-    console.log(appState.flashMessages);
     return <Redirect to={`/post/${isSuccessful}`} />;
   }
 

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import DispatchContext from "../DispatchContext";
 import { useImmer } from "use-immer";
-import Page from "./Page";
 import Axios from "axios";
 import Post from "./Post";
 
@@ -76,9 +75,6 @@ const Search = () => {
       draft.searchTerm = value;
     });
   }
-  setTimeout(() => {
-    console.log(state.results);
-  }, 5000);
 
   return (
     <>

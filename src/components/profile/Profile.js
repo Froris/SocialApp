@@ -41,6 +41,7 @@ const Profile = () => {
       }
     }
     fetchData();
+    console.log(state);
     return () => {
       ourRequest.cancel();
     };
@@ -54,7 +55,7 @@ const Profile = () => {
       const ourRequest = Axios.CancelToken.source();
       async function fetchData() {
         try {
-          const response = await Axios.post(`addFollow/${state.profileData.profileUsername}`, {
+          await Axios.post(`addFollow/${state.profileData.profileUsername}`, {
             token: appState.user.token,
             cancelToken: ourRequest.token,
           });
@@ -68,6 +69,7 @@ const Profile = () => {
         }
       }
       fetchData();
+      console.log(state);
       return () => {
         ourRequest.cancel();
       };
@@ -83,7 +85,7 @@ const Profile = () => {
       const ourRequest = Axios.CancelToken.source();
       async function fetchData() {
         try {
-          const response = await Axios.post(`addFollow/${state.profileData.profileUsername}`, {
+          await Axios.post(`addFollow/${state.profileData.profileUsername}`, {
             token: appState.user.token,
             cancelToken: ourRequest.token,
           });
@@ -97,6 +99,7 @@ const Profile = () => {
         }
       }
       fetchData();
+      console.log(state);
       return () => {
         ourRequest.cancel();
       };

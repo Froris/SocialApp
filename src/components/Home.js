@@ -4,7 +4,6 @@ import StateContext from "../StateContext";
 import LoadingDots from "./LoadingDots";
 import { useImmer } from "use-immer";
 import Axios from "axios";
-import { Link } from "react-router-dom";
 import Post from "./Post";
 
 const Home = () => {

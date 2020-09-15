@@ -113,7 +113,6 @@ const HomeGuest = () => {
           !draft.password.hasErrors
         ) {
           draft.submitCount++;
-          console.log("submitCount++");
         } else {
           console.log("submitForm error");
         }
