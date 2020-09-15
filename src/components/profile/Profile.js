@@ -24,7 +24,7 @@ const Profile = () => {
     },
   });
 
-  // Получаем профиль пользователя
+  // Получаем профиль пользователя #1
   useEffect(() => {
     const ourRequest = Axios.CancelToken.source();
     async function fetchData() {
@@ -46,6 +46,7 @@ const Profile = () => {
       ourRequest.cancel();
     };
   }, [username]);
+
   // Начинаем следовать за пользователем
   useEffect(() => {
     if (state.startFollowingRequestCount) {
@@ -85,7 +86,7 @@ const Profile = () => {
       const ourRequest = Axios.CancelToken.source();
       async function fetchData() {
         try {
-          await Axios.post(`addFollow/${state.profileData.profileUsername}`, {
+          await Axios.post(`removeFollow/${state.profileData.profileUsername}`, {
             token: appState.user.token,
             cancelToken: ourRequest.token,
           });
