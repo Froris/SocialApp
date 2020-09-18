@@ -1,5 +1,5 @@
 import React from "react";
-// Нужен реворк алгоритма вывода сообщений
+
 const FlashMessages = (props) => {
   return (
     <div className="floating-alerts">

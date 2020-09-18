@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Page from "../Page";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Axios from "axios";
 import LoadingDots from "../LoadingDots";
 import Post from "../Post";

@@ -1,17 +1,19 @@
 // Компонент, когда мы залогинены
 import React, { useContext } from "react";
 import ReactTooltip from "react-tooltip";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import DispatchContext from "../DispatchContext";
 import StateContext from "../StateContext";
 
 const HeaderLoggedIn = () => {
   const appDispatch = useContext(DispatchContext);
   const appState = useContext(StateContext);
+  let history = useHistory();
 
   function handleLogOut() {
     appDispatch({ type: "LOGOUT" });
     appDispatch({ type: "FLASH_MESSAGE", value: "You have successfully logged out." });
+    history.push("/");
   }
 
   function handleSearchIcon(e) {

@@ -41,7 +41,6 @@ const Profile = () => {
       }
     }
     fetchData();
-    console.log(state);
     return () => {
       ourRequest.cancel();
     };
@@ -70,7 +69,6 @@ const Profile = () => {
         }
       }
       fetchData();
-      console.log(state);
       return () => {
         ourRequest.cancel();
       };
@@ -100,7 +98,6 @@ const Profile = () => {
         }
       }
       fetchData();
-      console.log(state);
       return () => {
         ourRequest.cancel();
       };

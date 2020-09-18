@@ -12,6 +12,8 @@ const SinglePost = () => {
   const appState = useContext(StateContext);
   const appDispatch = useContext(DispatchContext);
 
+  console.log("Component was rendered!");
+
   const originalState = {
     title: {
       value: "",
@@ -25,6 +27,7 @@ const SinglePost = () => {
     },
     isFetching: true,
     isSaving: false,
+    redirect: false,
     id: useParams().id,
     sendCount: 0,
     notFound: false,
@@ -57,6 +60,7 @@ const SinglePost = () => {
         return;
       case "SAVE_REQUEST_FINISHED":
         draft.isSaving = false;
+        draft.redirect = true;
         return;
       case "TITLE_RULES":
         if (!action.value.trim()) {
@@ -79,6 +83,7 @@ const SinglePost = () => {
   };
 
   const [state, dispatch] = useImmerReducer(reducer, originalState);
+
   const submitHandler = (e) => {
     e.preventDefault();
     // Если заголовок пустой и мы нажимаем "enter", мы можем обойти валидацию (onBlur не сработает)
@@ -109,13 +114,15 @@ const SinglePost = () => {
     return () => {
       ourRequest.cancel();
     };
-  }, []);
+  }, [dispatch, state.id]);
 
   // Отпралвяем статью после редактирования
   useEffect(() => {
     if (state.sendCount) {
       dispatch({ type: "SAVE_REQUEST_STARTED" });
+
       const ourRequest = Axios.CancelToken.source();
+
       async function fetchPost() {
         try {
           await Axios.post(
@@ -127,12 +134,14 @@ const SinglePost = () => {
             },
             { cancelToken: ourRequest.token }
           );
+
           dispatch({ type: "SAVE_REQUEST_FINISHED" });
           appDispatch({ type: "FLASH_MESSAGE", value: "Post was updated!" });
         } catch (error) {
           console.log("something bad happen:");
         }
       }
+
       fetchPost();
       return () => {
         ourRequest.cancel();
@@ -140,22 +149,19 @@ const SinglePost = () => {
     }
   }, [state.sendCount]);
 
-  if (state.notFound) {
-    return <NotFound />;
-  }
-
+  if (state.notFound) return <NotFound />;
   if (state.permissionProblem) {
     appDispatch({ type: "FLASH_MESSAGE", value: "You do not have permission to edit this post!" });
     return <Redirect to="/" />;
   }
-
-  // Пока идет загрузка
-  if (state.isFetching)
+  if (state.isFetching) {
     return (
       <Page title="...">
         <LoadingDots />
       </Page>
     );
+  }
+  if (state.redirect) return <Redirect to={`/profile/${appState.user.username}`} />;
 
   return (
     <Page title="Edit post">

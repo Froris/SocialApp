@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect, Suspense, useCallback } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
@@ -42,7 +42,7 @@ const App = () => {
       avatar: localStorage.getItem("SocialAppAvatar"),
     },
   };
-
+  // state reducer
   const reducer = (draft, action) => {
     switch (action.type) {
       case "LOGIN":
@@ -79,11 +79,18 @@ const App = () => {
   };
 
   const [state, dispatch] = useImmerReducer(reducer, initialState);
+  console.log("state messages: ", state.flashMessages);
+
+  const logoutUser = useCallback(() => {
+    dispatch({ type: "LOGOUT" });
+    dispatch({ type: "FLASH_MESSAGE", value: "Your session has expired. Please log in again." });
+  }, [dispatch]);
 
   // Проверяем токен
   useEffect(() => {
     if (state.loggedIn) {
       const ourRequest = Axios.CancelToken.source();
+
       async function fetchResults() {
         try {
           const response = await Axios.post(
@@ -93,17 +100,17 @@ const App = () => {
           );
           // Если токен истек
           if (!response.data) {
-            dispatch({ type: "LOGOUT" });
-            dispatch({ type: "FLASH_MESSAGE", value: "Your session has expired. Please log in again." });
+            logoutUser();
           }
         } catch (err) {
           console.log("There was a problem or the request was canceled");
         }
       }
+
       fetchResults();
       return () => ourRequest.cancel();
     }
-  }, []);
+  }, [logoutUser, state.loggedIn, state.user.token]);
 
   // Обновляем данные юзера при логине/перезагрузке
   useEffect(() => {
@@ -116,7 +123,7 @@ const App = () => {
       localStorage.removeItem("SocialAppUsername");
       localStorage.removeItem("SocialAppAvatar");
     }
-  }, [state.loggedIn]);
+  }, [state.loggedIn, state.user.token, state.user.username, state.user.avatar]);
 
   return (
     <StateContext.Provider value={state}>
